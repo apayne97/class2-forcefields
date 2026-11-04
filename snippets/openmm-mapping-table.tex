@@ -1,0 +1,21 @@
+\documentclass[border=6pt,varwidth=30cm]{standalone}
+\usepackage{amsmath,xcolor,array}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\input{../chapter/colors.tex}
+\begin{document}
+\color{ffInk}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{@{}l l l@{}}
+\textbf{Term} & \textbf{Energy of one summand (Hwang et al. 1994, Eq.\ 1)} & \textbf{OpenMM} \\\hline
+\textcolor{cBond}{\textbf{bond}} & $\textcolor{cBond}{\displaystyle {}^2K_b(b-b_0)^2+{}^3K_b(b-b_0)^3+{}^4K_b(b-b_0)^4}$ & \textcolor{cBond}{\texttt{CustomBondForce}} \\[4pt]
+\textcolor{cAngle}{\textbf{angle}} & $\textcolor{cAngle}{\displaystyle {}^2K_\theta(\theta-\theta_0)^2+{}^3K_\theta(\theta-\theta_0)^3+{}^4K_\theta(\theta-\theta_0)^4}$ & \textcolor{cAngle}{\texttt{CustomAngleForce}} \\[4pt]
+\textcolor{cTorsion}{\textbf{torsion}} & $\textcolor{cTorsion}{\displaystyle {}^1K_\phi(1-\cos\phi)+{}^2K_\phi(1-\cos2\phi)+{}^3K_\phi(1-\cos3\phi)}$ & \textcolor{cTorsion}{\texttt{CustomTorsionForce}} \\[4pt]
+\textcolor{cBondBond}{\textbf{bond--bond}} & $\textcolor{cBondBond}{\displaystyle K_{bb'}(b-b_0)(b'-b_0')}$ & \textcolor{cBondBond}{\texttt{CustomCompoundBondForce (3 atoms)}} \\[4pt]
+\textcolor{cBondAngle}{\textbf{bond--angle}} & $\textcolor{cBondAngle}{\displaystyle K_{b\theta}(b-b_0)(\theta-\theta_0)}$ & \textcolor{cBondAngle}{\texttt{CustomCompoundBondForce (3 atoms)}} \\[4pt]
+\textcolor{cAngleAngle}{\textbf{angle--angle}} & $\textcolor{cAngleAngle}{\displaystyle K_{\theta\theta'}(\theta-\theta_0)(\theta'-\theta_0')}$ & \textcolor{cAngleAngle}{\texttt{CustomCompoundBondForce (4 atoms)}} \\[4pt]
+\textcolor{cBondTorsion}{\textbf{bond--torsion}} & $\textcolor{cBondTorsion}{\displaystyle (b-b_0)\left[{}^1K_{\phi b}\cos\phi+{}^2K_{\phi b}\cos2\phi+{}^3K_{\phi b}\cos3\phi\right]}$ & \textcolor{cBondTorsion}{\texttt{CustomCompoundBondForce (4 atoms)}} \\[4pt]
+\textcolor{cAngleTorsion}{\textbf{angle--torsion}} & $\textcolor{cAngleTorsion}{\displaystyle (\theta-\theta_0)\left[{}^1K_{\phi\theta}\cos\phi+{}^2K_{\phi\theta}\cos2\phi+{}^3K_{\phi\theta}\cos3\phi\right]}$ & \textcolor{cAngleTorsion}{\texttt{CustomCompoundBondForce (4 atoms)}} \\[4pt]
+\textcolor{cAngleAngleTorsion}{\textbf{angle--angle--torsion}} & $\textcolor{cAngleAngleTorsion}{\displaystyle K_{\phi\theta\theta'}(\theta-\theta_0)(\theta'-\theta_0')\cos\phi}$ & \textcolor{cAngleAngleTorsion}{\texttt{CustomCompoundBondForce (4 atoms)}} \\[4pt]
+\end{tabular}
+\end{document}

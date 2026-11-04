@@ -1,0 +1,10 @@
+name: class2-forcefields
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - openmm
+  - numpy
+  - matplotlib
+  - click
+  - pytest
