@@ -14,7 +14,7 @@ import click
 import ff_style as S
 
 HERE = Path(__file__).resolve().parent
-PREAMBLE = r"""\documentclass[border=6pt,varwidth=20cm]{standalone}
+PREAMBLE = r"""\documentclass[12pt,border=6pt,varwidth=20cm]{standalone}
 \usepackage{amsmath,xcolor,array}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
@@ -38,23 +38,27 @@ def equation_snippet(term):
 
 
 def mapping_table_snippet():
-    rows = []
+    """Stacked layout, 12 pt text: name and OpenMM class on one line, equation below."""
+    blocks = []
     for term, (hex_, family, eq, omm, ref) in S.TERMS.items():
         name = S.macro_name(term)
-        rows.append(
-            rf"\textcolor{{{name}}}{{\textbf{{{term.replace('-', '--')}}}}} & "
-            rf"$\textcolor{{{name}}}{{\displaystyle {eq}}}$ & "
-            rf"\textcolor{{{name}}}{{\texttt{{{omm.replace('_', ' ')}}}}} \\[4pt]"
+        if r"\left[" in eq:  # too wide for one line at 12 pt: break after the opening bracket
+            head_, tail_ = eq.split(r"\left[", 1)
+            tail_ = tail_.replace(r"\right]", "")
+            eq = r"\begin{array}{l}" + head_ + r"[\\ \quad " + tail_ + r"\,]\end{array}"
+        blocks.append(
+            rf"\noindent\parbox{{16cm}}{{\textcolor{{{name}}}{{\textbf{{{term.replace('-', '--')}}}}}"
+            rf"\hfill\textcolor{{{name}}}{{\texttt{{{omm}}}}}\\[1pt]"
+            "\n"
+            rf"\hspace*{{1em}}$\textcolor{{{name}}}{{\displaystyle {eq}}}$}}\\[7pt]"
         )
-    body = "\n".join(rows)
+    head = (
+        r"\noindent\parbox{16cm}{\textbf{Term}\hfill\textbf{OpenMM class}\\"
+        r"\hspace*{1em}\textbf{Energy of one summand (Hwang et al. 1994, Eq.\ 1)}\\[-2pt]\hrule}\\[7pt]"
+    )
     return (
-        PREAMBLE.replace("varwidth=20cm", "varwidth=30cm")
-        + r"\renewcommand{\arraystretch}{1.1}"
-        + "\n"
-        + r"\begin{tabular}{@{}l l l@{}}"
-        + "\n\\textbf{Term} & \\textbf{Energy of one summand (Hwang et al. 1994, Eq.\\ 1)} & \\textbf{OpenMM} \\\\\\hline\n"
-        + body
-        + "\n\\end{tabular}\n\\end{document}\n"
+        PREAMBLE.replace("varwidth=20cm", "varwidth=16cm")
+        + head + "\n" + "\n".join(blocks) + "\n\\end{document}\n"
     )
 
 
